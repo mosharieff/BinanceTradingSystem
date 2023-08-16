@@ -31,5 +31,6 @@ Once you have the libraries installed you may compile it as follows:
 <br/>
 > g++ main.cpp -std=c++11 -lcurl -lssl -lcrypto -lcpprest -lpthread
 <br/>
+> ./a.out
 <br/>
 This system is designed to run on Ubuntu Linux and is fully built with Linux. Further action may be required in order to run this on a Windows or Mac PC.
