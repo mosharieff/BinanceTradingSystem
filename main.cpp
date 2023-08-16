@@ -72,6 +72,7 @@ int main() {
 	// Transaction Fee
     double tx = 0.45/100.0;
     double txI = (1 + tx), txJ = (1 - tx);
+    double v0, v1, v2;
 	
 	// Writes headers of .csv log file
     writer << "Time,Side,Pair,Price,Side,Pair,Price,Side,Pair,Price,Balance\n";
@@ -121,7 +122,7 @@ int main() {
                                     
                                     if(true){
                                     	// Trade simulation starts off with 10 units, if the number of units increase after the trade, it is logged as profitable
-                                        balance = 10;
+                                        balance = 12;
                                         balance = (balance/std::stod(main_frame[entry.first][v.first][2]))*txJ; // Buy SOLUSDC
                                         balance = (balance*std::stod(main_frame[entry.first][u.first][0]))*txJ; // Sell SOLBTC
                                         balance = (balance*std::stod(main_frame[base][quote][0]))*txJ;          // Sell BTCUSDC
@@ -129,6 +130,23 @@ int main() {
                                         
                                         // Logging of the positive trade to the log csv file
                                         if(balance >= 10){
+
+                                            // Algorithmic Trading Order Placement
+                                            balance = 12;
+
+                                            // Calculate the initial volume and execute a buy order
+                                            v0 = balance/std::stod(main_frame[entry.first][v.first][2]);
+                                            bx.MarketOrder(entry.first+v.first, bk.BUY, v0);
+                                            
+                                            // Calculate the current volume and execute a sell order
+                                            v1 = v0*std::stod(main_frame[entry.first][u.first][0]);
+                                            bx.MarketOrder(entry.first+u.first, bk.SELL, v1);
+                                            
+                                            // Calculate the final volume and execute a sell order
+                                            v2 = v1*std::stod(main_frame[base][quote][0]);
+                                            bx.MarketOrder(base+quote, bk.SELL, v2);
+                                            
+                                            // Writes log to .csv
                                             writer << std::time(0) << "," << "Buy" << "," << entry.first+v.first << "," << main_frame[entry.first][v.first][2] << "," << "Sell" << "," << entry.first+u.first << "," << main_frame[entry.first][u.first][0] << "," << "Sell" << "," << base+quote << "," << main_frame[base][quote][0] << "," << balance << "\n";
                                             writer.flush();
                                         }
