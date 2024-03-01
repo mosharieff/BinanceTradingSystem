@@ -34,3 +34,6 @@ Once you have the libraries installed you may compile it as follows:
 > ./a.out
 <br/>
 This system is designed to run on Ubuntu Linux and is fully built with Linux. Further action may be required in order to run this on a Windows or Mac PC.
+
+## Live Run :volcano:
+![alt](https://github.com/mosharieff/BinanceTradingSystem/blob/main/RUN.GIF)
